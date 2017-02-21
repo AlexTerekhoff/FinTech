@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "A37BBF79DCF5C7E0BA052EA372F1D9CCE3D41813",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "A37BBF79DCF5C7E0BA052EA372F1D9CCE3D41813" : 9223372036854775807,
+    "E8BC7AEC01D59749006337AD13E5CF60251D5230" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "79309C92-DFE4-46AE-804F-3585AAF95618",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "A37BBF79DCF5C7E0BA052EA372F1D9CCE3D41813" : "fintechios\/",
+    "E8BC7AEC01D59749006337AD13E5CF60251D5230" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Currency converter",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Currency converter\/Currency converter.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/AlexTerekhoff\/fintechios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "A37BBF79DCF5C7E0BA052EA372F1D9CCE3D41813"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/AlexTerekhoff\/AlexTerekhoff.github.io.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E8BC7AEC01D59749006337AD13E5CF60251D5230"
+    }
+  ]
+}
