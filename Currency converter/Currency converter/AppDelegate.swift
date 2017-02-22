@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Currency converter
 //
-//  Created by Alexander on 20/02/2017.
+//  Created by Alexander on 22/02/2017.
 //  Copyright © 2017 Alexander Terekhov. All rights reserved.
 //
 

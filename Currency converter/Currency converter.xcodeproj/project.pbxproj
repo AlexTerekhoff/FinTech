@@ -12,6 +12,7 @@
 		11063A811E5B17D100B898A8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11063A7F1E5B17D100B898A8 /* Main.storyboard */; };
 		11063A831E5B17D100B898A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11063A821E5B17D100B898A8 /* Assets.xcassets */; };
 		11063A861E5B17D100B898A8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11063A841E5B17D100B898A8 /* LaunchScreen.storyboard */; };
+		4418F2451E5D05B400782860 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4418F2441E5D05B400782860 /* API.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		11063A821E5B17D100B898A8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		11063A851E5B17D100B898A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		11063A871E5B17D100B898A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4418F2441E5D05B400782860 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				11063A821E5B17D100B898A8 /* Assets.xcassets */,
 				11063A841E5B17D100B898A8 /* LaunchScreen.storyboard */,
 				11063A871E5B17D100B898A8 /* Info.plist */,
+				4418F2441E5D05B400782860 /* API.swift */,
 			);
 			path = "Currency converter";
 			sourceTree = "<group>";
@@ -138,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				11063A7E1E5B17D000B898A8 /* ViewController.swift in Sources */,
+				4418F2451E5D05B400782860 /* API.swift in Sources */,
 				11063A7C1E5B17D000B898A8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,6 +304,7 @@
 				11063A8C1E5B17D100B898A8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
