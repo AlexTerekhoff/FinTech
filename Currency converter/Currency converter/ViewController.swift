@@ -8,95 +8,112 @@
 
 import UIKit
 
-class ViewController: UIViewController,
-                    UIPickerViewDataSource,
-                    UIPickerViewDelegate{
+class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var label: UILabel!
-    
     @IBOutlet weak var pickerFrom:UIPickerView!
     @IBOutlet weak var pickerTo:UIPickerView!
-    
     @IBOutlet weak var activityIndicator:UIActivityIndicatorView!
+    @IBOutlet weak var currencyCountField: UITextField!
     
-    let currencies = ["RUB", "USD", "EUR"]
+    var currencies = ["RUB", "USD", "EUR"]
+    let urlAdress = "https://api.fixer.io/latest?base="
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.label.text = "Тут будет курс"
-        
-        self.pickerFrom.dataSource = self
-        self.pickerTo.dataSource = self
-        
-        self.pickerFrom.delegate = self
-        self.pickerTo.delegate = self
-        
-        self.activityIndicator.hidesWhenStopped = true
-        self.requestCurrentCurrencyRate()
+        setup()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    func setup() {
+        label.text = "No currency"
+        pickerFrom.dataSource = self
+        pickerTo.dataSource = self
+        
+        pickerFrom.delegate = self
+        pickerTo.delegate = self
+        currencyCountField.delegate = self
+        
+        activityIndicator.hidesWhenStopped = true
+        requestCurrentCurrencyRate()
+    }
+
     //MARK: - UIPickerViewDataSource
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        
         return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView == pickerTo {
-            return self.currenciesExpectBase().count
-        }
-        return currencies.count
+        return (pickerView == pickerTo) ?  self.currenciesExpectBase().count : currencies.count
     }
 
     //MARK: - UIPickerViewDelegate
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
-        if pickerView == pickerTo {
-            return self.currenciesExpectBase()[row]
-        }
-        
-        return currencies[row]
+        return (pickerView == pickerTo) ?  self.currenciesExpectBase()[row] : currencies[row]
     }
     
     //MARK: - Network
     
-    func requestCurrencyRates(baseCurrency: String, parseHandler:@escaping (Data?, Error?) -> Void) {
-        let url = URL(string: "https://api.fixer.io/latest?base=" + baseCurrency)!
-        
+    func requestCurrencies(parseHandler:@escaping (Data?, Error?) -> Void) {
+        let url = URL(string: urlAdress)!
         let dataTask = URLSession.shared.dataTask(with: url) {
-        (dataRecieved, ressponse, error) in
-        parseHandler(dataRecieved, error)
+            (dataRecieved, ressponse, error) in
+            parseHandler(dataRecieved, error)
+        }
+        dataTask.resume()
+    }
+    
+    func parseCurrenciesList(data: Data?, toCurrency: String) -> [String] {
+        var value : [String] = []
+        do {
+            let json = try JSONSerialization.jsonObject(with: data!, options: []) as? Dictionary<String, Any>
+            
+           
+        }catch {
         
         }
         
+        return value
+    }
+
+
+    func requestCurrencyRates(baseCurrency: String, parseHandler:@escaping (Data?, Error?) -> Void) {
+        let url = URL(string: urlAdress + baseCurrency)!
+        let dataTask = URLSession.shared.dataTask(with: url) {
+            (dataRecieved, ressponse, error) in
+            parseHandler(dataRecieved, error)
+        }
         dataTask.resume()
     }
     
     func parseCurrencyRatesResponse(data: Data?, toCurrency: String) -> String {
         var value : String = ""
+       
         do {
             let json = try JSONSerialization.jsonObject(with: data!, options: []) as? Dictionary<String, Any>
             
-            if let parsedJSON = json {
-                print("\(parsedJSON)")
-                if let rates = parsedJSON["rates"] as? Dictionary<String, Double> {
-                    if let rate = rates[toCurrency] {
-                        value = "\(rate)"
-                    } else {
-                        value = "No rate for currency \"\(toCurrency)\" found"
-                    }
-                } else {
-                    value = "No \"rates\" for currency found"
-                }
-            } else {
+            guard let parsedJSON = json else {
                 value = "No JSON value parsed"
+                return value
             }
-        } catch {
+            print("\(parsedJSON)")
+            guard let rates = parsedJSON["rates"] as? Dictionary<String, Double> else {
+                value = "No \"rates\" for currency found"
+                return value
+            }
+            guard  let rate = rates[toCurrency] else {
+               value = "No rate for currency \"\(toCurrency)\" found"
+               return value
+            }
+            value = "\(rate)"
+        }catch {
             value = error.localizedDescription
         }
         
@@ -104,27 +121,21 @@ class ViewController: UIViewController,
     }
     
     func retrieveCurrencyRate(baseCurrency:String, toCurrency: String, completion: @escaping (String) -> Void) {
-        self.requestCurrencyRates(baseCurrency: baseCurrency) { [weak self] (data, error) in
-        var string = "No currency retrieved!"
-        
+        self.requestCurrencyRates(baseCurrency: baseCurrency) {
+            [weak self] (data, error) in
+            var string = "No currency retrieved!"
             if let currentError = error {
                 string = currentError.localizedDescription
-            } else {
-                if let strongSelf = self {
-                    string = strongSelf.parseCurrencyRatesResponse(data: data, toCurrency: toCurrency)
-                }
+            } else if let strongSelf = self {
+                string = strongSelf.parseCurrencyRatesResponse(data: data, toCurrency: toCurrency)
             }
-            
             completion(string)
         }
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        if pickerView == pickerFrom {
-            return self.pickerTo.reloadAllComponents()
-        }
-        self.requestCurrentCurrencyRate()
+        return  (pickerView == pickerFrom) ?  self.pickerTo.reloadAllComponents() : self.requestCurrentCurrencyRate()
     }
     
     func requestCurrentCurrencyRate() {
@@ -137,7 +148,8 @@ class ViewController: UIViewController,
         let baseCurrency = self.currencies[baseCurrencyIndex]
         let toCurrency = self.currenciesExpectBase()[toCurrencyIndex]
         
-        self.retrieveCurrencyRate(baseCurrency:baseCurrency, toCurrency: toCurrency) { [weak self] (value) in
+        self.retrieveCurrencyRate(baseCurrency:baseCurrency, toCurrency: toCurrency) {
+            [weak self] (value) in
             DispatchQueue.main.async(execute: {
                 if let strongSelf = self {
                     strongSelf.label.text = value
@@ -154,4 +166,3 @@ class ViewController: UIViewController,
         return currenciesExpectBase
     }
 }
-
